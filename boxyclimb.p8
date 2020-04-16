@@ -28,6 +28,21 @@ function _init()
  
 --tree position array 
  x = {72,104,88,104,72,88}
+ 
+--random timing for fruit dropping
+ randtime1 = 30
+ randtime2 = 30
+ 
+--run random number generator
+ rungen1 = true
+ rungen2 = true
+ 
+--drop command for fruit
+ drop1 = false
+ dropped1 = false
+ drop2 = false
+ dropped2 = false
+
 end
 
 function _draw()
@@ -109,43 +124,76 @@ function _update()
   x[1] = x[4]
  end
 
---for coconut falling 1 and 2
- if fcount%15 == 0 then
-  y=y+1
+--for coconut 1
+--run random numbers all the time
+ if rungen1 == true then
+  randnum1 = (flr(rnd(5))+1)
  end
+
+--check every half second
+ if fcount%15 == 0 then
+  if randnum1 == 1 then
+   rungen1 = false
+   drop1 = true
+    if dropped1 == true then
+     drop1 = false
+     rungen1 = true
+     dropped1 = false
+    end
+  end
+ end
+ 
+ --for coconut 2
+ if rungen2 == true then
+  randnum2 = (flr(rnd(5))+1)
+ end
+ 
+ if fcount%15 == 0 then
+  if randnum2 == 2 then
+   rungen2 = false
+   drop2 = true
+    if dropped2 == true then
+     drop2 = false
+     rungen2 = true
+     dropped2 = false
+    end
+  end
+ end
+
+--for coconut falling 1
+ if fcount%randtime1 == 0 and drop1 == true then
+	 y=y+1
+ end 
 --for coconut falling 2
- if fcount%30 == 0 then
-  z=z+1
+ if fcount%randtime2 == 0 and drop2 == true then
+	 z=z+1
  end
 
 --scoring and losing lives
  if y == 11 and side == (6*8) then
   score = score + 1
   y=2
+  dropped1 = true
  elseif y == 14 then
   y=2
   lives = lives - 1
+  dropped1 = true
  end
   
  if z == 11 and side == (9*8) then
   z = 2
   score = score + 1
+  dropped2 = true
  elseif z == 14 then
   z = 2
   lives = lives - 1
+  dropped2 = true
  end
 
 end
 -->8
---randomizer, off for testing movement downward, see page 1
--- randnum = flr(rnd(3))
--- if randnum == 0 then
---  x[1] = 72
--- elseif randnum == 1 then
---  x[1] = 88
--- elseif randnum == 2 then
---  x[1] = 104
--- end
+
+
 __gfx__
 00000000077777777777777707777777777777777777777777777770777777777777777007777777777777777777777777777770000000000000000000000000
 00000000700000000000000070000000000000000000000000000007000000000000000770000000000000000000000000000007000000000000000000000000
